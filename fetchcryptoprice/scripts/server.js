@@ -191,7 +191,7 @@ async function storeVal(token,usdValue) {
         } else  {
         }
       } catch(err) {
-       // console.log("error")
+
       }
           
     } else { 
@@ -212,7 +212,7 @@ async function storeVal(token,usdValue) {
     }
     console.log("Called storeVal")
 } 
-//storeVal("eth",23.45);
+
 
 async function currentMean(tokenType) {
   console.log("Calling currentMean")
@@ -231,25 +231,3 @@ async function currentMean(tokenType) {
   }
   return val;
 } 
-//currentMean("eth"); //23.45
-
-
-// async function currentCounter(tokenType) {
-//   console.log("Calling currentCounter")
-
-//   var val=0;
-//   try {
-//     let fetchVal = await contract.methods.fetchCurrencyLen(tokenType).call( 
-//       (err, result) => {
-//       console.log("fetchCurrencyLen value ")
-//       console.log(result)
-//       val = result;
-//       }
-//     )
-
-//   } catch (error) {
-//     console.log(error)
-//   }
-//   return val;
-// } 
-//currentCounter("ETH");
