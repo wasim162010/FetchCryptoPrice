@@ -14,3 +14,9 @@ npx truffle init
 npm i --save-dev @openzeppelin/truffle-upgrades
 npm install --save express
 npm install --save web3
+
+to upgrade contract , createa a .js file under 'migrations' [view '4_upgrade_contract.sol'] and run truffle migrate
+
+Contains API :
+/store : to fetchn store values in ledger. Need to pass 'token' and 'cur' as a query string params.
+/mean : to fetch the mean of the token prices.  Need to pass 'token' as a query string params
