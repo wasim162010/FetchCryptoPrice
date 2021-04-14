@@ -13,150 +13,108 @@ const Web3 = require('web3')
 const address = '0x181f92EeEabB05Dc04F0C2cbD70753f9ddCa576A' 
 const contAddr = '0xc717092d19E7B4D7035809216f57837bb7ED38b3'
 const abi = [
-  {
-    "inputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "name",
-        "type": "string"
-      }
-    ],
-    "name": "fetchCurrencyMean",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "name",
-        "type": "string"
-      }
-    ],
-    "name": "fetchCurrencyLen",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "token",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "wholeNumberPart",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "fractionalPart",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "meanWholePart",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "meanFracPart",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "currLen",
-        "type": "uint256"
-      }
-    ],
-    "name": "storeInLedger",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "last_completed_migration",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "owner",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "completed",
-        "type": "uint256"
-      }
-    ],
-    "name": "setCompleted",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  }
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			}
+		],
+		"name": "fetchCurrencyLen",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			}
+		],
+		"name": "fetchCurrencyMean",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "initializer",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "token",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_wholeNumberPart",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_fractionalPart",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "meanWholePart",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "meanFracPart",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "currLen",
+				"type": "uint256"
+			}
+		],
+		"name": "storeInLedger",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
 ]
 
 
