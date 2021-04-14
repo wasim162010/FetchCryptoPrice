@@ -204,7 +204,6 @@ async function storeVal(token,usdValue) {
       var mean  = (parseInt(meanVal) + usdValue) / curCounter ;
       var usdValWholePart = usdValue.toString().split(".")[0];
       var usdValFractionalPart = usdValue.toString().split(".")[1];
-      //function storeInLedger(string memory token, uint wholeNumberPart,uint fractionalPart,uint meanWholePart,uint meanFracPart, uint currLen) public returns(bool) {
       var storeRecord = await contract.methods.storeInLedger(token,parseInt(usdValWholePart),
         parseInt(usdValFractionalPart),
         usdValWholePart,usdValFractionalPart,curCounter).send({from:address});
