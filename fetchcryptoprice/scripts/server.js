@@ -11,7 +11,7 @@ const Web3 = require('web3')
 //web3
 
 const address = '0x181f92EeEabB05Dc04F0C2cbD70753f9ddCa576A' 
-const contAddr = '0xc717092d19E7B4D7035809216f57837bb7ED38b3'
+const contAddr = '0xce729EF30a4CCa30270042679354Ca448e5c8A9B'
 const abi = [
 	{
 		"constant": true,
@@ -131,37 +131,45 @@ app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname + '/index.html'));
 });
 
-app.get('/price', function(req, res) {
-     console.log("fetching...")
-     var token = req.query.token
-     var cur = req.query.cur
-      let curPrice;
-      price.getCryptoPrice(cur, token).then(obj => { // Base for ex - USD, Crypto for ex - ETH 
-        // console.log(obj.price)
-           curPrice = obj.price;
-           console.log(curPrice);
-           res.end(curPrice);
+// app.get('/price', function(req, res) {
+//      console.log("fetching...")
+//      var token = req.query.token
+//      var cur = req.query.cur
+//       let curPrice = getPrice(cur, token);
+// });
 
-    }).catch(err => {
-        // console.log(err)
-    })
+async function getPrice(cur, token) {
+ let curPrice;
+ 
+  await price.getCryptoPrice(cur, token).then(obj => { // Base for ex - USD, Crypto for ex - ETH 
 
-});
+    curPrice = obj.price;
+      console.log("curPrice" + curPrice);
+     // res.end(curPrice);
+
+}).catch(err => {
+   // console.log(err)
+})
+  return price;
+}
 
 app.put('/store', function(req, res) {
-  res.end('saving in ledger');
+ // 
   var token = req.query.token
   var cur = req.query.cur
   let curPrice;
 
-  price.getCryptoPrice(cur, token).then(obj => { 
-       curPrice = obj.price;
-       console.log(curPrice);
-       res.end(curPrice);
-}).catch(err => {
+//   price.getCryptoPrice(cur, token).then(obj => { 
+//        curPrice = obj.price;
+//        console.log(curPrice);
+//        res.end(curPrice);
+// }).catch(err => {
 
-})
+// })
+
+  curPrice =  getPrice(cur, token);
   storeVal(token,curPrice);
+  res.end('saving in ledger');
 });
 
 app.get('/mean', function(req, res) {
@@ -170,40 +178,60 @@ app.get('/mean', function(req, res) {
   let mean = currentMean(token);
 });
 
-async function storeVal(token,usdValue) {
+
+async function currentCounter(tokenType) {
+  console.log("Calling currentCounter")
+
+  var val=0;
+  try {
+    let fetchVal = await contract.methods.fetchCurrencyLen(tokenType).call(  
+      (err, result) => {
+      console.log("fetchCurrencyLen value ")
+      console.log(result)
+      val = result;
+      }
+    )
+  } catch (error) {
+    console.log(error)
+  }
+  return val;
+} 
+
+async function storeVal(token,valofToken) {
     console.log("Calling storeVal")
+    console.log(token);
+    console.log(valofToken);
 
     var curCounter = await currentCounter(token);
-
+    console.log(curCounter);
     if(curCounter == 0) {
    
-        var meanFractionalPart = res[1];
-        curMean = usdValue;
+        curMean = valofToken;
         let curLen = curCounter + 1;
-        var usdValueSplit = usdValue.toString().split(".");
+        let usdValueSplit = "" + valofToken;
+        usdValueSplit= usdValueSplit.split(".");
 
         try {
-        var storeRecord = await contract.methods.storeInLedger(token,pasrseInt(usdValueSplit[0]),
-                                                                      pasrseInt(usdValueSplit[1]),
-                                                                      usdValueSplit[0],usdValueSplit[1],curLen).send({from:address});
-        if(storeRecord == true) {
-
-        } else  {
-        }
+        var storeRecord = await contract.methods.storeInLedger(token,Number.parseInt(usdValueSplit[0],10),
+                                                                      Number.parseInt(usdValueSplit[1],10),
+                                                                      usdValueSplit[0],
+                                                                      usdValueSplit[1],
+                                                                      curLen)
+                                                                      .send({from:address});
       } catch(err) {
-
+        console.log(err)
       }
           
     } else { 
 
-      var res = currentMean(token);
-      var meanWholePart = res[0];
-      var meanFractionalPart = res[1];
+      var meanWholePart = currentMeanWholePart[token];
+      var meanFractionalPart = currentMeanFractPart[token];
       curCounter++;
       var meanVal = meanWholePart + "." + meanFractionalPart;
       var mean  = (parseInt(meanVal) + usdValue) / curCounter ;
-      var usdValWholePart = usdValue.toString().split(".")[0];
-      var usdValFractionalPart = usdValue.toString().split(".")[1];
+      let usdValueSplit = "" + valofToken;
+      var usdValWholePart = Number.parseInt(usdValueSplit[0],10);    //usdValue.toString().split(".")[0];
+      var usdValFractionalPart = Number.parseInt(usdValueSplit[1],10);    //usdValue.toString().split(".")[1];
       var storeRecord = await contract.methods.storeInLedger(token,parseInt(usdValWholePart),
         parseInt(usdValFractionalPart),
         usdValWholePart,usdValFractionalPart,curCounter).send({from:address});

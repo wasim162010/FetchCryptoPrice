@@ -2,10 +2,14 @@ pragma solidity 0.5.16;
 
 contract Aggregate {
 
-  
+
+// ex: if mean os 23.45, then 23 wl be stored in currentMeanWholePart and 45 in currentMeanFractPart
     mapping(string=>uint) currentMeanWholePart;
     mapping(string=>uint) currentMeanFractPart;
+
     mapping(string=> uint) counterMapping; 
+    
+    //ex : id usd value is 73.23  then 72 wl be stored in keyToWholeVal and 23 in keyToFracVal.
     mapping(string=>uint[]) keyToWholeVal;
     mapping(string=>uint[]) keyToFracVal;
     mapping(string=>bool) isActice;
