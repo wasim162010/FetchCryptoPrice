@@ -11,7 +11,7 @@ const Web3 = require('web3')
 //web3
 
 const address = '0x181f92EeEabB05Dc04F0C2cbD70753f9ddCa576A' 
-const contAddr = '0xA72102F6c6F9E723F2d001CCbEF41b4C47F18993'
+const contAddr = '0xc717092d19E7B4D7035809216f57837bb7ED38b3'
 const abi = [
   {
     "inputs": [],
@@ -163,18 +163,6 @@ const abi = [
 const web3 = new Web3("http://127.0.0.1:7545") //pointing to in memory ganache blockchain.
 const contract = new web3.eth.Contract(abi, contAddr)
 
-// async function currentCcunter() {
-
-//   let valu =  await contract.methods.fetchCounterMapping(curr).call(  
-//     (err, result) => {
-//       console.log("current counter value ")
-//       console.log(result)
-//       mean = result;
-//       console.log("error ")
-//       console.log(err)
-//     }
-//   }
-
 
 //expressjs
 var app = express();
@@ -203,19 +191,17 @@ app.get('/price', function(req, res) {
 });
 
 app.put('/store', function(req, res) {
-  res.end('sving in ledger');
+  res.end('saving in ledger');
   var token = req.query.token
   var cur = req.query.cur
   let curPrice;
 
-  price.getCryptoPrice(cur, token).then(obj => { // cur for ex - USD, token for ex - ETH 
-    // console.log(obj.price)
+  price.getCryptoPrice(cur, token).then(obj => { 
        curPrice = obj.price;
        console.log(curPrice);
        res.end(curPrice);
-
 }).catch(err => {
-    // console.log(err)
+
 })
   storeVal(token,curPrice);
 });
@@ -226,33 +212,6 @@ app.get('/mean', function(req, res) {
   let mean = currentMean(token);
 });
 
-
-// var curr="ETH"
-// var usdValue=78
-    /*
-        store and calculate mean
-        fetch value based on the tken and the currency type. //ui
-        call fetchCurrencyLen()  //ui
-        if(0) {
-            calculate mean = valInCurrency //no fetch
-            counterMapping[name] = 1;//no fetch
-            currentMean[name] = valInDollar; //no fetch
-            //ledger side
-            call api passing token, valueinusd(post conv into str),currentmean(post conv into str),and countermapping
-         
-        } else {
-            fetch fetchCurrencyMean() and convert into int
-            fetch fetchCurrencyLen() and convert into int.
-            newval = fetchCurrencyLen()++
-            mean = (mean + currentMean[name])/ newval ;
-            currentMean[name] = mean
-            call api passing token, valueinusd(post conv into str),currentmean(post conv into str),and countermapping
-
-        }
-
-
-
-    */
 async function storeVal(token,usdValue) {
     console.log("Calling storeVal")
 
@@ -282,7 +241,6 @@ async function storeVal(token,usdValue) {
       var res = currentMean(token);
       var meanWholePart = res[0];
       var meanFractionalPart = res[1];
-     // var curCounter = currentCounter(token);
       curCounter++;
       var meanVal = meanWholePart + "." + meanFractionalPart;
       var mean  = (parseInt(meanVal) + usdValue) / curCounter ;
@@ -296,38 +254,18 @@ async function storeVal(token,usdValue) {
     }
     console.log("Called storeVal")
 } 
-storeVal("eth",23.45);
-
-async function currentCounter(tokenType) {
-  console.log("Calling currentCounter")
-
-  var val=0;
-  try {
-    let fetchVal = await contract.methods.fetchCurrencyLen(tokenType).call(  //working
-      (err, result) => {
-      console.log("fetchCurrencyLen value ")
-      console.log(result)
-      val = result;
-      }
-    )
-
-  } catch (error) {
-    console.log(error)
-  }
-  return val;
-} 
-//currentCounter("ETH");
+//storeVal("eth",23.45);
 
 async function currentMean(tokenType) {
   console.log("Calling currentMean")
   var val;
   try {
-    let fetchVal = await contract.methods.fetchCurrencyMean(tokenType).call(  //working
+    let fetchVal = await contract.methods.fetchCurrencyMean(tokenType).call(  
       (err, result) => {
       console.log("fetchCurrencyMean value ")
       console.log(result)
-      val = result;// result[0] + "." + result[1];
-      console.log(val);
+      val = result[0].toString() + "." + result[1] ; // result[0] + "." + result[1];
+      console.log(val); 
       }
     )
   } catch (error) {
@@ -335,27 +273,25 @@ async function currentMean(tokenType) {
   }
   return val;
 } 
-currentMean("eth"); //23.45
+//currentMean("eth"); //23.45
 
 
-// app.get("/user", function(req, res){
-  
-//   var name = req.query.name
-//   var age = req.query.age
-    
-//   console.log("Name :", name)
-//   console.log("Age :", age)
-//   res.end("done");
-// })
+// async function currentCounter(tokenType) {
+//   console.log("Calling currentCounter")
 
-// price.getCryptoPrice(base, crypto).then(obj => { // Base for ex - USD, Crypto for ex - ETH 
-//    // console.log(obj.price)
-// }).catch(err => {
-//    // console.log(err)
-// })
+//   var val=0;
+//   try {
+//     let fetchVal = await contract.methods.fetchCurrencyLen(tokenType).call( 
+//       (err, result) => {
+//       console.log("fetchCurrencyLen value ")
+//       console.log(result)
+//       val = result;
+//       }
+//     )
 
-// price.getBasePrice(base, crypto).then(obj => { // Base for ex - USD, Crypto for ex - ETH 
-//    // console.log(obj.price)
-// }).catch(err => {
-//    // console.log(err)
-// })
+//   } catch (error) {
+//     console.log(error)
+//   }
+//   return val;
+// } 
+//currentCounter("ETH");

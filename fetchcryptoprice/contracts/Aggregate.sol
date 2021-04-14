@@ -4,10 +4,10 @@ contract Aggregate {
 
     struct Currency {
         string code;
-        uint[] wholeNumberParter; //will be converted into string
-        uint[] fractionalPart; //will be converted into string
+        uint[] wholeNumberPart ; //will be converted into string
+        uint[]  fractionalPart ; //will be converted into string
       //  string[] valueInUSD; //will be converted into string
-      
+       
         bool isActive;
         uint curLen;  
     }
@@ -17,60 +17,75 @@ contract Aggregate {
     mapping(string=>uint) currentMeanWholePart;
     mapping(string=>uint) currentMeanFractPart;
     mapping(string=> uint) counterMapping; 
+    mapping(string=>uint[]) keyToWholeVal;
+    mapping(string=>uint[]) keyToFracVal;
+    mapping(string=>bool) isActice;
     address contOwner;
 
-    constructor () public {
-        contOwner= msg.sender;
-        currentMeanWholePart["eth"] = 234;
-         currentMeanFractPart["eth"] = 5;
-        counterMapping["eth"] = 1;
-    }
-    
+    // constructor () public {
+    //     contOwner= msg.sender;
+    //    // currentMeanWholePart["eth"] = 234;
+    //      //currentMeanFractPart["eth"] = 5;
+    //     //counterMapping["eth"] = 1;
+    // }
+function initializer()  public {
+       
+     
+}
 
     function fetchCurrencyMean(string memory name) public view returns(uint, uint)  {
-
             return (currentMeanWholePart[name],currentMeanFractPart[name]);
     }
 
     function fetchCurrencyLen(string memory name) public view returns(uint)  {
-            //require(curMapping[name].isActive == true);
-           /// return curMapping[name].curLen;
            return counterMapping[name];
     }
 
-/*
-     function fetchCounterMapping(string memory name) public view returns(uint)  {
-            //require(curMapping[name].isActive == true);
-            require(curMapping[name].isActive == true);
-            if(counterMapping[name] == 0) {
-            //if(curMapping[name].curLen == 0) { 
-             return 0;
-            } else {
-                return 1;
-                // return counterMapping[name];
-            }
-    }
-    */
-    
+
     // function currentMeanCalc(string memory name,uint valInDollar,uint counter) public{
     
-    function storeInLedger(string memory token, uint wholeNumberPart,uint fractionalPart,uint meanWholePart,uint meanFracPart, uint currLen) public returns(bool) {
+    function storeInLedger(string memory token, uint _wholeNumberPart,uint _fractionalPart,uint meanWholePart,uint meanFracPart, uint currLen) public returns(bool) {
         
         currentMeanWholePart[token] =  meanWholePart;
         currentMeanFractPart[token] =  meanFracPart;
         counterMapping[token] = currLen;
-        Currency memory curr = curMapping[token];
-        curr.code =token;
-        curr.wholeNumberParter[currLen] = wholeNumberPart;
-        curr.fractionalPart[currLen] = fractionalPart;
-        curr.isActive= true;
-        curr.curLen = currLen;
-        
+        if(currLen == 1) {
+           
+             //Currency memory curr ;//= Currency(token,wholeNumberPart.push(_wholeNumberPart),fractionalPart.push(_fractionalPart),true,currLen);
+            // curr.code = token;
+          //   curr.wholeNumberPart[1] = _wholeNumberPart;
+            // curr.fractionalPart[1] = _fractionalPart;
+             keyToWholeVal[token].push(_wholeNumberPart);
+            keyToWholeVal[token].push(_fractionalPart);
+            // curr.isActive= true;
+            isActice[token] = true;
+             //curr.curLen = 1;
+           //  curMapping[token] = curr;
+        } else  {
+          //  Currency memory curr = curMapping[token];
+          // curr.wholeNumberPart.push(_wholeNumberPart);
+           //curr.fractionalPart.push(_fractionalPart);
+           keyToWholeVal[token].push(_wholeNumberPart);
+           keyToWholeVal[token].push(_fractionalPart);
+           isActice[token] = true;
+           //curr.isActive= true;
+           //curr.curLen = currLen;
+        }
+        // Currency curr = Currency(token,wholeNumberPart,fractionalPart,true,currLen);
+        // Currency memory curr = curMapping[token];
+        // curr.code =token;
+        // curr.wholeNumberParter[currLen] = wholeNumberPart;
+        // curr.fractionalPart[currLen] = fractionalPart;
+        // curr.isActive= true;
+        // curr.curLen = currLen;
         //currentMean[token] = curMean;
-        counterMapping[token] = currLen;    
+     //   counterMapping[token] = currLen;    
         return true;
         
     }
+
+   
+
     /*
     
     function currentMeanCalc(string memory name,uint valInDollar) public{
@@ -141,5 +156,40 @@ contract Aggregate {
 
 
 
+/*
+     function fetchCounterMapping(string memory name) public view returns(uint)  {
+            //require(curMapping[name].isActive == true);
+            require(curMapping[name].isActive == true);
+            if(counterMapping[name] == 0) {
+            //if(curMapping[name].curLen == 0) { 
+             return 0;
+            } else {
+                return 1;
+                // return counterMapping[name];
+            }
+    }
+    */
+
     
 }
+
+
+//  struct Question
+//     {
+//         bytes32 text;
+//         bytes32[] answerList; // list of answer keys so we can look them up
+//         mapping(bytes32 => Answer) answerStructs; // random access by question key and answer key
+//         // add more non-key fields as needed
+//     }
+
+
+
+//     function addAnswer(bytes32 questionKey, bytes32 answerKey, bytes32 answerText)
+//         // onlyOwner
+//         returns(bool success)
+//     {
+//         questionStructs[questionKey].answerList.push(answerKey);
+//         questionStructs[questionKey].answerStructs[answerKey].text = answerText;
+//         // answer vote will init to 0 without our help
+//         return true;
+//     }
