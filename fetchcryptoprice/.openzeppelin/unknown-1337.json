@@ -1,0 +1,271 @@
+{
+  "manifestVersion": "3.1",
+  "impls": {
+    "461eccf034580e9018c40ce8a064ea86fef9fd03442177f565377089801d20b7": {
+      "address": "0x8B5f72C2D1E32e34d3cC9b1A7f36D4E3c87FA2b3",
+      "txHash": "0x931f411888e46771c368ebd96d21d490138e8e7ae43245bc912d4e85c178644a",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Aggregate",
+            "label": "curMapping",
+            "type": "t_mapping(t_string_memory,t_struct(Currency)14_storage)",
+            "src": "Aggregate.sol:15"
+          },
+          {
+            "contract": "Aggregate",
+            "label": "currentMeanWholePart",
+            "type": "t_mapping(t_string_memory,t_uint256)",
+            "src": "Aggregate.sol:17"
+          },
+          {
+            "contract": "Aggregate",
+            "label": "currentMeanFractPart",
+            "type": "t_mapping(t_string_memory,t_uint256)",
+            "src": "Aggregate.sol:18"
+          },
+          {
+            "contract": "Aggregate",
+            "label": "counterMapping",
+            "type": "t_mapping(t_string_memory,t_uint256)",
+            "src": "Aggregate.sol:19"
+          },
+          {
+            "contract": "Aggregate",
+            "label": "keyToWholeVal",
+            "type": "t_mapping(t_string_memory,t_array(t_uint256)dyn_storage)",
+            "src": "Aggregate.sol:20"
+          },
+          {
+            "contract": "Aggregate",
+            "label": "keyToFracVal",
+            "type": "t_mapping(t_string_memory,t_array(t_uint256)dyn_storage)",
+            "src": "Aggregate.sol:21"
+          },
+          {
+            "contract": "Aggregate",
+            "label": "isActice",
+            "type": "t_mapping(t_string_memory,t_bool)",
+            "src": "Aggregate.sol:22"
+          },
+          {
+            "contract": "Aggregate",
+            "label": "contOwner",
+            "type": "t_address",
+            "src": "Aggregate.sol:23"
+          }
+        ],
+        "types": {
+          "t_mapping(t_string_memory,t_struct(Currency)14_storage)": {
+            "label": "mapping(string => struct Aggregate.Currency)"
+          },
+          "t_string_storage": {
+            "label": "string"
+          },
+          "t_struct(Currency)14_storage": {
+            "label": "struct Aggregate.Currency",
+            "members": [
+              {
+                "label": "code",
+                "type": "t_string_storage"
+              },
+              {
+                "label": "wholeNumberPart",
+                "type": "t_array(t_uint256)dyn_storage"
+              },
+              {
+                "label": "fractionalPart",
+                "type": "t_array(t_uint256)dyn_storage"
+              },
+              {
+                "label": "isActive",
+                "type": "t_bool"
+              },
+              {
+                "label": "curLen",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_array(t_uint256)dyn_storage": {
+            "label": "uint256[]"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_bool": {
+            "label": "bool"
+          },
+          "t_mapping(t_string_memory,t_uint256)": {
+            "label": "mapping(string => uint256)"
+          },
+          "t_mapping(t_string_memory,t_array(t_uint256)dyn_storage)": {
+            "label": "mapping(string => uint256[])"
+          },
+          "t_mapping(t_string_memory,t_bool)": {
+            "label": "mapping(string => bool)"
+          },
+          "t_address": {
+            "label": "address"
+          }
+        }
+      }
+    },
+    "bf92e2f5cc916d371ce22138bcfdf4d42ab5fd630db9011a97ef05ea5fe65ab4": {
+      "address": "0x565a52CB2fB0DCe5b5A71D6A11BbC9B443bF1eBD",
+      "txHash": "0xfc5cb48aaee3f2664c2fb69d163a99b9dbe0c3e5fff28a5eb7d8dcdbea621a85",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Aggregate",
+            "label": "currentMeanWholePart",
+            "type": "t_mapping(t_string_memory,t_uint256)",
+            "src": "Aggregate.sol:17"
+          },
+          {
+            "contract": "Aggregate",
+            "label": "currentMeanFractPart",
+            "type": "t_mapping(t_string_memory,t_uint256)",
+            "src": "Aggregate.sol:18"
+          },
+          {
+            "contract": "Aggregate",
+            "label": "counterMapping",
+            "type": "t_mapping(t_string_memory,t_uint256)",
+            "src": "Aggregate.sol:19"
+          },
+          {
+            "contract": "Aggregate",
+            "label": "keyToWholeVal",
+            "type": "t_mapping(t_string_memory,t_array(t_uint256)dyn_storage)",
+            "src": "Aggregate.sol:20"
+          },
+          {
+            "contract": "Aggregate",
+            "label": "keyToFracVal",
+            "type": "t_mapping(t_string_memory,t_array(t_uint256)dyn_storage)",
+            "src": "Aggregate.sol:21"
+          },
+          {
+            "contract": "Aggregate",
+            "label": "isActice",
+            "type": "t_mapping(t_string_memory,t_bool)",
+            "src": "Aggregate.sol:22"
+          },
+          {
+            "contract": "Aggregate",
+            "label": "contOwner",
+            "type": "t_address",
+            "src": "Aggregate.sol:23"
+          }
+        ],
+        "types": {
+          "t_mapping(t_string_memory,t_uint256)": {
+            "label": "mapping(string => uint256)"
+          },
+          "t_string_storage": {
+            "label": "string"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_mapping(t_string_memory,t_array(t_uint256)dyn_storage)": {
+            "label": "mapping(string => uint256[])"
+          },
+          "t_array(t_uint256)dyn_storage": {
+            "label": "uint256[]"
+          },
+          "t_mapping(t_string_memory,t_bool)": {
+            "label": "mapping(string => bool)"
+          },
+          "t_bool": {
+            "label": "bool"
+          },
+          "t_address": {
+            "label": "address"
+          }
+        }
+      }
+    },
+    "5c60a95a7f63b45b54971349f7b4a2377cc4415b792acfd608907c9c52804cb2": {
+      "address": "0x7D8D40005357C1ef82A37d8030E3B7CA002A53f6",
+      "txHash": "0x78609c0e97d765e496c1f012ea70fc921cb251d31e8991e19f290a2881ef20ea",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Aggregate",
+            "label": "currentMeanWholePart",
+            "type": "t_mapping(t_string_memory,t_uint256)",
+            "src": "Aggregate.sol:6"
+          },
+          {
+            "contract": "Aggregate",
+            "label": "currentMeanFractPart",
+            "type": "t_mapping(t_string_memory,t_uint256)",
+            "src": "Aggregate.sol:7"
+          },
+          {
+            "contract": "Aggregate",
+            "label": "counterMapping",
+            "type": "t_mapping(t_string_memory,t_uint256)",
+            "src": "Aggregate.sol:8"
+          },
+          {
+            "contract": "Aggregate",
+            "label": "keyToWholeVal",
+            "type": "t_mapping(t_string_memory,t_array(t_uint256)dyn_storage)",
+            "src": "Aggregate.sol:9"
+          },
+          {
+            "contract": "Aggregate",
+            "label": "keyToFracVal",
+            "type": "t_mapping(t_string_memory,t_array(t_uint256)dyn_storage)",
+            "src": "Aggregate.sol:10"
+          },
+          {
+            "contract": "Aggregate",
+            "label": "isActice",
+            "type": "t_mapping(t_string_memory,t_bool)",
+            "src": "Aggregate.sol:11"
+          },
+          {
+            "contract": "Aggregate",
+            "label": "contOwner",
+            "type": "t_address",
+            "src": "Aggregate.sol:12"
+          }
+        ],
+        "types": {
+          "t_mapping(t_string_memory,t_uint256)": {
+            "label": "mapping(string => uint256)"
+          },
+          "t_string_storage": {
+            "label": "string"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_mapping(t_string_memory,t_array(t_uint256)dyn_storage)": {
+            "label": "mapping(string => uint256[])"
+          },
+          "t_array(t_uint256)dyn_storage": {
+            "label": "uint256[]"
+          },
+          "t_mapping(t_string_memory,t_bool)": {
+            "label": "mapping(string => bool)"
+          },
+          "t_bool": {
+            "label": "bool"
+          },
+          "t_address": {
+            "label": "address"
+          }
+        }
+      }
+    }
+  },
+  "admin": {
+    "address": "0x9a5dF09ee189D27c2849E2FA32E5947d3dCf6156",
+    "txHash": "0x2adec688b74188da0cd0663398181a53e79f2d4d5bece0d0341685ad9c60b5a4"
+  }
+}
