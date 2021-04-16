@@ -11,55 +11,8 @@ const Web3 = require('web3')
 //web3
 
 const address = '0x181f92EeEabB05Dc04F0C2cbD70753f9ddCa576A' 
-const contAddr = '0xce729EF30a4CCa30270042679354Ca448e5c8A9B'
+const contAddr = '0xd9145CCE52D386f254917e481eB44e9943F39138'
 const abi = [
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "name",
-				"type": "string"
-			}
-		],
-		"name": "fetchCurrencyLen",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "name",
-				"type": "string"
-			}
-		],
-		"name": "fetchCurrencyMean",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
 	{
 		"constant": false,
 		"inputs": [],
@@ -114,6 +67,53 @@ const abi = [
 		"payable": false,
 		"stateMutability": "nonpayable",
 		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			}
+		],
+		"name": "fetchCurrencyLen",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			}
+		],
+		"name": "fetchCurrencyMean",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
 	}
 ]
 
@@ -138,44 +138,83 @@ app.get('/', function(req, res) {
 //       let curPrice = getPrice(cur, token);
 // });
 
+
 async function getPrice(cur, token) {
+	console.log("getPrice");
  let curPrice;
  
-  await price.getCryptoPrice(cur, token).then(obj => { // Base for ex - USD, Crypto for ex - ETH 
-
+  price.getCryptoPrice(cur, token).then(obj => { // Base for ex - USD, Crypto for ex - ETH 
+	console.log("price.getCryptoPrice");
     curPrice = obj.price;
-      console.log("curPrice" + curPrice);
-     // res.end(curPrice);
-
+	console.log("curPrice" + curPrice);
+	return curPrice;
 }).catch(err => {
-   // console.log(err)
 })
-  return price;
+
+  //return price;
 }
 
+
 app.put('/store', function(req, res) {
- // 
+  console.log("/store");
   var token = req.query.token
+  console.log("token " + token)
   var cur = req.query.cur
+  console.log("cur " + cur)
   let curPrice;
 
+  //console.log("calling getCryptoPrice");
+  
 //   price.getCryptoPrice(cur, token).then(obj => { 
-//        curPrice = obj.price;
+// 		console.log("inside price.getCryptoPrice");
+// 		curPrice = obj.price;
 //        console.log(curPrice);
-//        res.end(curPrice);
-// }).catch(err => {
 
+// }).catch(err => {
+// 	console.log(err);
 // })
 
-  curPrice =  getPrice(cur, token);
-  storeVal(token,curPrice);
-  res.end('saving in ledger');
+//  getPrice(cur, token).then(obj => { // Base for ex - USD, Crypto for ex - ETH 
+// 	console.log("getPrice inside put");
+//     curPrice = obj.price;
+// 	console.log("curPrice" + curPrice);
+// //	return curPrice;
+// }).catch(err => {
+// });
+
+// .then((data)=> {
+// 	curPrice = data;
+// 	console.log("curPrice");
+// 	console.log(curPrice);
+// },(data) => {
+// 	console.log("error" + data);
+//   }
+// )
+
+//console.log("called getCryptoPrice");
+
+console.log("calling storeVal");
+
+storeVal(token,cur).then( (data)=> {
+	console.log("storeVal");
+	console.log(curPrice);
+	res.send(data);
+},(data) => {
+	res.send(data);
+	console.log("error" + data);
+  }
+)
+
+console.log("called storeVal");
+
+
 });
 
 app.get('/mean', function(req, res) {
-  res.end('fetching the current mean');
-  var token = req.query.token
+ // res.end('fetching the current mean');
+  var token = req.query.token;
   let mean = currentMean(token);
+  res.send(mean);
 });
 
 
@@ -184,11 +223,12 @@ async function currentCounter(tokenType) {
 
   var val=0;
   try {
-    let fetchVal = await contract.methods.fetchCurrencyLen(tokenType).call(  
+    let fetchVal =  contract.methods.fetchCurrencyLen(tokenType).call(  
       (err, result) => {
       console.log("fetchCurrencyLen value ")
-      console.log(result)
-      val = result;
+      console.log("result "   + result);
+	  val = result;
+	  return result;
       }
     )
   } catch (error) {
@@ -197,35 +237,70 @@ async function currentCounter(tokenType) {
   return val;
 } 
 
-async function storeVal(token,valofToken) {
-    console.log("Calling storeVal")
+//async function storeVal(token,valofToken) {
+
+async function storeVal(token,curr) {
+
+    console.log("storeVal definition")
     console.log(token);
-    console.log(valofToken);
+	console.log(curr);
+	//getPrice(cur, token)
+	//var valofToken = await getPrice(curr, token);
+	var valofToken
+	await price.getCryptoPrice(curr, token).then(obj => { // Base for ex - USD, Crypto for ex - ETH 
+		console.log("price.getCryptoPrice");
+		valofToken = obj.price;
+		console.log("valofToken " + valofToken);
+		//return curPrice;
+	}).catch(err => {
+	})
 
     var curCounter = await currentCounter(token);
     console.log(curCounter);
     if(curCounter == 0) {
-   
+		console.log("curCounter == 0");
         curMean = valofToken;
         let curLen = curCounter + 1;
         let usdValueSplit = "" + valofToken;
-        usdValueSplit= usdValueSplit.split(".");
+		usdValueSplit= usdValueSplit.split(".");
+		console.log(usdValueSplit[0]);
+		console.log(Number.parseInt(usdValueSplit[0],10));
+		console.log(Number.parseInt(usdValueSplit[1],10));
+		console.log(usdValueSplit[1]);
 
         try {
-        var storeRecord = await contract.methods.storeInLedger(token,Number.parseInt(usdValueSplit[0],10),
-                                                                      Number.parseInt(usdValueSplit[1],10),
-                                                                      usdValueSplit[0],
-                                                                      usdValueSplit[1],
-                                                                      curLen)
-                                                                      .send({from:address});
+
+			console.log("try");
+	//storeInLedger(string memory token, uint _wholeNumberPart,uint _fractionalPart,uint meanWholePart,uint meanFracPart, uint currLen) public returns(bool) {
+		var storeRecord = await contract.methods.storeInLedger(token,
+															Number.parseInt(usdValueSplit[0],10),
+                                                            Number.parseInt(usdValueSplit[1],10),
+                                                            usdValueSplit[0],
+                                                            usdValueSplit[1],
+															curLen
+															)
+                                                            .send(
+																{from:address}
+															);
       } catch(err) {
+		console.log("catch ");
         console.log(err)
       }
           
     } else { 
+		console.log("else ");
+		var currMean= await currentMean(token);
+		console.log("currMean " + currMean);
+		// .then(obj => { // Base for ex - USD, Crypto for ex - ETH 
+		// 	console.log("currentMean");
+		// 	currMean = obj;
+		// 	console.log("mean " + currMean);
+		// 	//return curPrice;
+		// }).catch(err => {
+		// })
 
-      var meanWholePart = currentMeanWholePart[token];
-      var meanFractionalPart = currentMeanFractPart[token];
+      var meanWholePart = currMean.toString().split(",")[0];
+      var meanFractionalPart = currMean.toString().split(",")[0];
       curCounter++;
       var meanVal = meanWholePart + "." + meanFractionalPart;
       var mean  = (parseInt(meanVal) + usdValue) / curCounter ;
@@ -237,7 +312,8 @@ async function storeVal(token,valofToken) {
         usdValWholePart,usdValFractionalPart,curCounter).send({from:address});
 
     }
-    console.log("Called storeVal")
+	console.log("Called storeVal")
+	
 } 
 
 
@@ -248,8 +324,10 @@ async function currentMean(tokenType) {
     let fetchVal = await contract.methods.fetchCurrencyMean(tokenType).call(  
       (err, result) => {
       console.log("fetchCurrencyMean value ")
-      console.log(result)
-      val = result[0].toString() + "." + result[1] ; // result[0] + "." + result[1];
+	  console.log(result)
+	  if(result != undefined)  {
+		val = result[0].toString() + "." + result[1] ; // result[0] + "." + result[1];
+	  }
       console.log(val); 
       }
     )
