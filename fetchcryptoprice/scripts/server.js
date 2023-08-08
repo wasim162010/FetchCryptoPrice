@@ -131,12 +131,7 @@ app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname + '/index.html'));
 });
 
-// app.get('/price', function(req, res) {
-//      console.log("fetching...")
-//      var token = req.query.token
-//      var cur = req.query.cur
-//       let curPrice = getPrice(cur, token);
-// });
+
 
 
 async function getPrice(cur, token) {
@@ -151,7 +146,7 @@ async function getPrice(cur, token) {
 }).catch(err => {
 })
 
-  //return price;
+
 }
 
 
@@ -163,35 +158,7 @@ app.put('/store', function(req, res) {
   console.log("cur " + cur)
   let curPrice;
 
-  //console.log("calling getCryptoPrice");
-  
-//   price.getCryptoPrice(cur, token).then(obj => { 
-// 		console.log("inside price.getCryptoPrice");
-// 		curPrice = obj.price;
-//        console.log(curPrice);
 
-// }).catch(err => {
-// 	console.log(err);
-// })
-
-//  getPrice(cur, token).then(obj => { // Base for ex - USD, Crypto for ex - ETH 
-// 	console.log("getPrice inside put");
-//     curPrice = obj.price;
-// 	console.log("curPrice" + curPrice);
-// //	return curPrice;
-// }).catch(err => {
-// });
-
-// .then((data)=> {
-// 	curPrice = data;
-// 	console.log("curPrice");
-// 	console.log(curPrice);
-// },(data) => {
-// 	console.log("error" + data);
-//   }
-// )
-
-//console.log("called getCryptoPrice");
 
 console.log("calling storeVal");
 
@@ -211,7 +178,7 @@ console.log("called storeVal");
 });
 
 app.get('/mean', function(req, res) {
- // res.end('fetching the current mean');
+
   var token = req.query.token;
   let mean = currentMean(token);
   res.send(mean);
@@ -237,21 +204,20 @@ async function currentCounter(tokenType) {
   return val;
 } 
 
-//async function storeVal(token,valofToken) {
+
 
 async function storeVal(token,curr) {
 
     console.log("storeVal definition")
     console.log(token);
 	console.log(curr);
-	//getPrice(cur, token)
-	//var valofToken = await getPrice(curr, token);
+
 	var valofToken
 	await price.getCryptoPrice(curr, token).then(obj => { // Base for ex - USD, Crypto for ex - ETH 
 		console.log("price.getCryptoPrice");
 		valofToken = obj.price;
 		console.log("valofToken " + valofToken);
-		//return curPrice;
+		
 	}).catch(err => {
 	})
 
@@ -271,7 +237,7 @@ async function storeVal(token,curr) {
         try {
 
 			console.log("try");
-	//storeInLedger(string memory token, uint _wholeNumberPart,uint _fractionalPart,uint meanWholePart,uint meanFracPart, uint currLen) public returns(bool) {
+	
 		var storeRecord = await contract.methods.storeInLedger(token,
 															Number.parseInt(usdValueSplit[0],10),
                                                             Number.parseInt(usdValueSplit[1],10),
@@ -291,13 +257,7 @@ async function storeVal(token,curr) {
 		console.log("else ");
 		var currMean= await currentMean(token);
 		console.log("currMean " + currMean);
-		// .then(obj => { // Base for ex - USD, Crypto for ex - ETH 
-		// 	console.log("currentMean");
-		// 	currMean = obj;
-		// 	console.log("mean " + currMean);
-		// 	//return curPrice;
-		// }).catch(err => {
-		// })
+		
 
       var meanWholePart = currMean.toString().split(",")[0];
       var meanFractionalPart = currMean.toString().split(",")[0];
@@ -305,8 +265,8 @@ async function storeVal(token,curr) {
       var meanVal = meanWholePart + "." + meanFractionalPart;
       var mean  = (parseInt(meanVal) + usdValue) / curCounter ;
       let usdValueSplit = "" + valofToken;
-      var usdValWholePart = Number.parseInt(usdValueSplit[0],10);    //usdValue.toString().split(".")[0];
-      var usdValFractionalPart = Number.parseInt(usdValueSplit[1],10);    //usdValue.toString().split(".")[1];
+      var usdValWholePart = Number.parseInt(usdValueSplit[0],10);    
+      var usdValFractionalPart = Number.parseInt(usdValueSplit[1],10);    
       var storeRecord = await contract.methods.storeInLedger(token,parseInt(usdValWholePart),
         parseInt(usdValFractionalPart),
         usdValWholePart,usdValFractionalPart,curCounter).send({from:address});
@@ -326,7 +286,7 @@ async function currentMean(tokenType) {
       console.log("fetchCurrencyMean value ")
 	  console.log(result)
 	  if(result != undefined)  {
-		val = result[0].toString() + "." + result[1] ; // result[0] + "." + result[1];
+		val = result[0].toString() + "." + result[1] ; 
 	  }
       console.log(val); 
       }
